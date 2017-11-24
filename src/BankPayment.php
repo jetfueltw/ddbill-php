@@ -5,6 +5,7 @@ namespace Jetfuel\Ddbill;
 class BankPayment extends Payment
 {
     const BASE_API_URL = 'https://pay.ddbill.com/';
+    const API_VERSION  = 'V3.3';
     const SERVICE_TYPE = 'direct_pay';
     const PRODUCT_NAME = 'PRODUCT_NAME';
     const CHARSET      = 'UTF-8';
@@ -30,23 +31,27 @@ class BankPayment extends Payment
      * @param string $tradeNo
      * @param string $bank
      * @param float $amount
-     * @param string $clientIp
      * @param string $notifyUrl
+     * @param null|string $returnUrl
      * @return string
      */
-    public function order($tradeNo, $bank, $amount, $clientIp, $notifyUrl)
+    public function order($tradeNo, $bank, $amount, $notifyUrl, $returnUrl = null)
     {
         $payload = $this->signPayload([
-            'order_no'      => $tradeNo,
-            'service_type'  => self::SERVICE_TYPE,
-            'order_amount'  => $amount,
-            'order_time'    => $this->getCurrentTime(),
-            'client_ip'     => $clientIp,
-            'notify_url'    => $notifyUrl,
-            'product_name'  => self::PRODUCT_NAME,
-            'input_charset' => self::CHARSET,
-            'bank_code'     => $bank,
+            'order_no'          => $tradeNo,
+            'service_type'      => self::SERVICE_TYPE,
+            'order_amount'      => $amount,
+            'order_time'        => $this->getCurrentTime(),
+            'notify_url'        => $notifyUrl,
+            'interface_version' => self::API_VERSION,
+            'product_name'      => self::PRODUCT_NAME,
+            'input_charset'     => self::CHARSET,
+            'bank_code'         => $bank,
         ]);
+
+        if ($returnUrl !== null) {
+            $payload['returnUrl'] = $returnUrl;
+        }
 
         return $this->httpClient->post('gateway', $payload);
     }

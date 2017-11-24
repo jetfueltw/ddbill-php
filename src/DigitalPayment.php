@@ -9,6 +9,7 @@ class DigitalPayment extends Payment
     use ResultParser;
 
     const BASE_API_URL = 'https://api.ddbill.com/';
+    const API_VERSION  = 'V3.3';
     const PRODUCT_NAME = 'PRODUCT_NAME';
 
     /**
@@ -38,13 +39,14 @@ class DigitalPayment extends Payment
     public function order($tradeNo, $channel, $amount, $clientIp, $notifyUrl)
     {
         $payload = $this->signPayload([
-            'order_no'     => $tradeNo,
-            'service_type' => $channel,
-            'order_amount' => $amount,
-            'order_time'   => $this->getCurrentTime(),
-            'client_ip'    => $clientIp,
-            'notify_url'   => $notifyUrl,
-            'product_name' => self::PRODUCT_NAME,
+            'order_no'          => $tradeNo,
+            'service_type'      => $channel,
+            'order_amount'      => $amount,
+            'order_time'        => $this->getCurrentTime(),
+            'client_ip'         => $clientIp,
+            'notify_url'        => $notifyUrl,
+            'interface_version' => self::API_VERSION,
+            'product_name'      => self::PRODUCT_NAME,
         ]);
 
         return $this->parseResponse($this->httpClient->post('gateway/api/scanpay', $payload));

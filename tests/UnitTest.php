@@ -75,11 +75,11 @@ class UnitTest extends TestCase
         $tradeNo = str_replace('-', '', $faker->uuid);
         $bank = Bank::CEBB;
         $amount = 1;
-        $clientIp = $faker->ipv4;
         $notifyUrl = $faker->url;
+        $returnUrl = $faker->url;
 
         $payment = new BankPayment($this->merchantId, $this->merchantPrivateKey, $this->httpReferer);
-        $result = $payment->order($tradeNo, $bank, $amount, $clientIp, $notifyUrl);
+        $result = $payment->order($tradeNo, $bank, $amount, $notifyUrl, $returnUrl);
 
         $this->assertContains('<form', $result, '', true);
 

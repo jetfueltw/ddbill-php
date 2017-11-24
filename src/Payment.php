@@ -9,7 +9,6 @@ class Payment
     const BASE_API_URL = 'https://api.ddbill.com/';
     const TIME_ZONE    = 'Asia/Shanghai';
     const TIME_FORMAT  = 'Y-m-d H:i:s';
-    const API_VERSION  = 'V3.3';
     const SIGN_TYPE    = 'RSA-S';
 
     /**
@@ -64,7 +63,6 @@ class Payment
     protected function signPayload(array $payload)
     {
         $payload['merchant_code'] = $this->merchantId;
-        $payload['interface_version'] = self::API_VERSION;
         $payload['sign'] = Signature::generate($payload, $this->privateKey);
         $payload['sign_type'] = self::SIGN_TYPE;
 

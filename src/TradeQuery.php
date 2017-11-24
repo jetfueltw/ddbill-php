@@ -9,6 +9,7 @@ class TradeQuery extends Payment
     use ResultParser;
 
     const BASE_API_URL = 'https://query.ddbill.com/';
+    const API_VERSION  = 'V3.3';
     const SERVICE_TYPE = 'single_trade_query';
 
     /**
@@ -34,8 +35,9 @@ class TradeQuery extends Payment
     public function find($tradeNo)
     {
         $payload = $this->signPayload([
-            'order_no'     => $tradeNo,
-            'service_type' => self::SERVICE_TYPE,
+            'order_no'          => $tradeNo,
+            'interface_version' => self::API_VERSION,
+            'service_type'      => self::SERVICE_TYPE,
         ]);
 
         $order = $this->parseResponse($this->httpClient->post('query', $payload));
