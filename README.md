@@ -14,7 +14,7 @@ composer require jetfueltw/ddbill-php
 
 ### 掃碼支付下單
 
-使用微信支付、QQ錢包、支付寶（尚不支援）掃碼支付，下單後返回支付網址，請自行轉為 QR Code。
+使用微信支付、QQ錢包、支付寶掃碼支付，下單後返回支付網址，請自行轉為 QR Code。
 
 ```
 $merchantId = '1XXXXXXXX6'; // 商家號
