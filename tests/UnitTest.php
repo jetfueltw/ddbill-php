@@ -15,7 +15,6 @@ class UnitTest extends TestCase
 {
     private $merchantId;
     private $merchantPrivateKey;
-    private $httpReferer;
 
     public function __construct($name = null, array $data = [], $dataName = '')
     {
@@ -23,7 +22,6 @@ class UnitTest extends TestCase
 
         $this->merchantId = getenv('MERCHANT_ID');
         $this->merchantPrivateKey = getenv('MERCHANT_PRIVATE_KEY');
-        $this->httpReferer = getenv('HTTP_REFERER');
     }
 
     public function testDigitalPaymentOrder()
@@ -78,7 +76,7 @@ class UnitTest extends TestCase
         $notifyUrl = $faker->url;
         $returnUrl = $faker->url;
 
-        $payment = new BankPayment($this->merchantId, $this->merchantPrivateKey, $this->httpReferer);
+        $payment = new BankPayment($this->merchantId, $this->merchantPrivateKey);
         $result = $payment->order($tradeNo, $bank, $amount, $notifyUrl, $returnUrl);
 
         $this->assertContains('<form', $result, '', true);
